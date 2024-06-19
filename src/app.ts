@@ -1,31 +1,35 @@
 import express, { json } from 'express';
-import { Request, Response } from 'express';
+import { Request, Response, Application } from 'express';
+const RegisterRouter = require("./routes/register.routes.ts");
 
+// Classe que representa a aplicação propriamente dita
 class App {
-    public express: express.Application
+
+    private express: Application;
 
     constructor() {
-
         this.express = express();
         this.middlewares();
         this.routes();
     }
 
-    middlewares() {
-        this.express.use(json());
+    // Método que configura os middlewares que serão executados globalmente na aplicação
+    private middlewares(): void {
+        this.express.use(json()); // Middleware para o uso de json
     }
 
-    routes() {
-        this.express.get('/', (req: Request, res: Response) => {
-            res.send('Hello, TypeScript with Express!');
-        });
+    // Método que chama a classe com as rotas da aplicação
+    private routes(): void {
+        this.express.use(RegisterRouter.router);
     }
 
-    listen(port: number) {
+    // Método que será utilizado pela classe Server para inicializar o servidor
+    public listen(port: number): void {
         this.express.listen(port, () => {
             console.log(`Server is running on http://localhost:${port}`);
           });
     }
 }
 
+// Exporta a classe já instânciada
 export default new App();
