@@ -1,5 +1,3 @@
-//const { authController } = require("../controllers/auth.controller");
-//const { authenticateToken } = require("../middlewares/auth.middleware");
 import { Request, Response } from 'express';
 const AbstractRoute = require("./abstract.routes.ts");
 const RegisterController = require("../controllers/register.controller.ts");

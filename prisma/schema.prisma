@@ -9,7 +9,7 @@ datasource db {
 
 model users {
   id       Int    @id @default(autoincrement())
-  username String @db.VarChar(500)
+  username String @unique(map: "users_unique") @db.VarChar(500)
   fullname String @db.VarChar(500)
   password String @db.VarChar(500)
 }
