@@ -28,16 +28,16 @@ export class NewUser extends User {
     }
 
     // Método para fazer o registro do usuário no banco de dados
-    async saveUser() {
+    async saveUser() : Promise<void> {
         try {
             // Aguarda a resolução da promise #password
-            const hashedPassword = await this.encryptPassword(this._password);
+            const hashedPassword = await this.encryptPassword(this.password);
 
             // Após a resolução da senha, faz o insert no banco de dados
             await prisma.users.create({
                 data: {
-                    username: this._username,
-                    fullname: this._fullname,
+                    username: this.username,
+                    fullname: this.fullname,
                     password: hashedPassword
                 }
             });

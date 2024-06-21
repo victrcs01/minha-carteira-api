@@ -2,7 +2,7 @@
 //const { authenticateToken } = require("../middlewares/auth.middleware");
 const AbstractRoute = require("./abstract.routes.ts");
 
-class AuthRouter extends AbstractRoute {
+export class AuthRoutes extends AbstractRoute {
 
     constructor() {
         super();
@@ -10,6 +10,4 @@ class AuthRouter extends AbstractRoute {
         //this.router.post("/token", authenticateToken, controller.authenticateToken);
     }
 }
-
-module.exports = new AuthRouter();
 

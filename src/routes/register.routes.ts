@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
-const AbstractRoute = require("./abstract.routes.ts");
-const RegisterController = require("../controllers/register.controller.ts");
+import { AbstractRoute } from "./abstract.routes";
+import { RegisterController } from "../controllers/register.controller";
 
-class RegisterRouter extends AbstractRoute {
+export class RegisterRoutes extends AbstractRoute {
+
+    private static controller = new RegisterController;
 
     constructor() {
         super();
-        this.router.post("/password", (req: Request, res: Response) => RegisterController.getUserInfo(req, res));
-        //this.router.post("/token", authenticateToken, controller.authenticateToken);
+        this.router.post("/newUser", (req: Request, res: Response) => RegisterRoutes.controller.createNewUser(req, res));
+        this.router.post("/", (req: Request, res: Response) => RegisterRoutes.controller.authenticateUser(req, res));
     }
 }
-
-module.exports = new RegisterRouter();
 

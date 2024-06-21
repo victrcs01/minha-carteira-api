@@ -2,14 +2,15 @@ import { json } from 'stream/consumers';
 import { Return } from '../interfaces/types.interface';
 import { NewUser } from '../models/newUser.model';
 import { User } from '../models/user.model';
+import { IAuthenticateUser, ICreateUser } from '../interfaces/register.interface';
 const { prisma } = require('../prisma/prismaClient');
 
 // Classe que representa os serviços desta aplicação
 // Funciona como uma ponte entre as requisições e os modelos
-export class RegisterServices {
+export class RegisterService implements ICreateUser, IAuthenticateUser {
 
     // Método que representa a criação de um novo usuário no sistema
-    static async createUser(username: string, fullname: string, password: string): Promise<Return> {
+    async createUser(username: string, fullname: string, password: string): Promise<Return> {
 
         try {
             // Inicializo uma instância de um novo usuário
@@ -27,7 +28,7 @@ export class RegisterServices {
     }
 
     // Método que realiza o login no sistema
-    static async authenticateUser(username: string,  password: string) : Promise<Return> {
+    async authenticateUser(username: string,  password: string) : Promise<Return> {
 
         // Verifica se foi informado alguma senha
         if (!password || !username ) {

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-class AbstractRoute {
+export abstract class AbstractRoute {
 
     public router: Router;
 
@@ -9,5 +9,3 @@ class AbstractRoute {
     }
 
 }
-
-module.exports = AbstractRoute;

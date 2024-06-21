@@ -4,11 +4,11 @@ const bcrypt = require('bcrypt');
 export class Password {
 
     // Fator para fazer a criptografia da senha
-    static #saltRounds = 10;
+    private static saltRounds = 10;
 
     // Método para criar uma senha encriptografada para salvar no banco
     static async generateHash(plainPassword: string): Promise<string> {
-        const hashedPassword = await bcrypt.hash(plainPassword, Password.#saltRounds);
+        const hashedPassword = await bcrypt.hash(plainPassword, Password.saltRounds);
         return hashedPassword;
     };
 
