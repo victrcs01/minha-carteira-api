@@ -1,8 +1,8 @@
 import { Return } from '../interfaces/types.interface';
 import { AppError } from '../errors/appErros';
-import { JWT } from './jwt.model';
+import { JWT } from '../utils/jwt.utils';
 import { Account } from './account.model';
-import { ChartData } from './chartData.model';
+import { ChartData } from '../utils/chartData.utils';
 const { prisma } = require('../prisma/prismaClient');
 
 export class Wallet {

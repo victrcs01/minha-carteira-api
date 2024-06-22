@@ -1,5 +1,5 @@
-import { Password } from './password.model';
-import { JWT } from './jwt.model';
+import { Password } from '../utils/password.utils';
+import { JWT } from '../utils/jwt.utils';
 
 export class User {
 

@@ -1,5 +1,5 @@
 import { AppError } from '../errors/appErros';
-import { Password } from './password.model';
+import { Password } from '../utils/password.utils';
 import { User } from './user.model';
 const { prisma } = require('../prisma/prismaClient');
 

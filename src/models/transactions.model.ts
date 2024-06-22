@@ -1,4 +1,4 @@
-import { ChartData } from './chartData.model';
+import { ChartData } from '../utils/chartData.utils';
 import { Transaction } from './transaction.model';
 
 export class Transactions {
