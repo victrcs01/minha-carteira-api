@@ -42,20 +42,25 @@ export class Wallet {
         // Busca as contas no banco de dados
         await this.loadAccounts();
 
-        // Inicializa o acumulador do banaço das contas
-        let walletBalance = { globalBalance: 0.0, monthExpenses: 0, monthRevenues: 0 };
+        // Inicializa o acumulador do balaço das contas e a matriz que irá armazenar os balanços individuais
+        const walletBalance = { globalBalance: 0.0, monthExpenses: 0, monthRevenues: 0 };
+        const accountsBalance: { accountId: number, accountName: string, accountBalance: number }[] = [];
 
         // Loop nas contas, buscando as informações de balanço
         for (const account of this.accounts) {
             await account.loadTransactions();
             const accountBalance = account.getAccountBalance();
 
+            // Atualiza o balanço global das contas
             walletBalance.globalBalance += accountBalance.accountGlobalBalance;
             walletBalance.monthExpenses += accountBalance.monthExpenses;
             walletBalance.monthRevenues += accountBalance.monthRevenues;
+
+            // salva o balanço individual
+            accountsBalance.push({ accountId: account.id, accountName: account.institution, accountBalance: accountBalance.accountGlobalBalance });
         }
 
-        return walletBalance;
+        return { walletBalance, accountsBalance };
     }
 
     // Método para pegar o gráfico de despesas
