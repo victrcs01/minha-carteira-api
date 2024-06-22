@@ -13,7 +13,7 @@ export class JWT {
     };
 
     // Método para validar se um token é válido
-    static validateToken(token: string) {
+    static authenticateToken(token: string) {
         try {
             const decoded = jwt.verify(token, this.secretKey);
             return decoded.userId;

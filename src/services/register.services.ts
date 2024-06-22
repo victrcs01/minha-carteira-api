@@ -1,12 +1,10 @@
-import { json } from 'stream/consumers';
 import { Return } from '../interfaces/types.interface';
 import { NewUser } from '../models/newUser.model';
 import { User } from '../models/user.model';
 import { IAuthenticateUser, ICreateUser } from '../interfaces/register.interface';
 const { prisma } = require('../prisma/prismaClient');
 
-// Classe que representa os serviços desta aplicação
-// Funciona como uma ponte entre as requisições e os modelos
+// Classe que representa os serviços de registro
 export class RegisterService implements ICreateUser, IAuthenticateUser {
 
     // Método que representa a criação de um novo usuário no sistema

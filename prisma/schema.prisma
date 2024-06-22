@@ -8,8 +8,32 @@ datasource db {
 }
 
 model users {
-  id       Int    @id @default(autoincrement())
-  username String @unique(map: "users_unique") @db.VarChar(500)
-  fullname String @db.VarChar(500)
-  password String @db.VarChar(500)
+  id       Int        @id @default(autoincrement())
+  username String     @unique(map: "users_unique") @db.VarChar(500)
+  fullname String     @db.VarChar(500)
+  password String     @db.VarChar(500)
+  accounts accounts[]
+}
+
+model accounts {
+  id           Int            @id @default(autoincrement())
+  userId       Int
+  institution  String         @db.VarChar(300)
+  users        users          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "accounts_users_FK")
+  transactions transactions[]
+
+  @@index([userId], map: "accounts_users_FK")
+}
+
+model transactions {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(500)
+  date      DateTime @db.Date
+  type      String   @db.VarChar(100)
+  accountId Int
+  category  String   @db.VarChar(300)
+  value     Float    @db.Float
+  accounts  accounts @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transactions_accounts_FK")
+
+  @@index([accountId], map: "transactions_accounts_FK")
 }
