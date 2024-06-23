@@ -151,7 +151,7 @@ export class Wallet {
         
         // Busca as contas no banco de dados
         await this.loadAccounts();
-        
+
         return this.accounts.map(account => {
             console.log(account.id)
             return { id: account.id, institution: account.institution}
@@ -170,10 +170,11 @@ export class Wallet {
 
     // Método para criar uma nova transação
     async createTransaction( name: string, date: string, type: string, accountId: number, category: string, value:number) {
+        const dateObject = new Date(date)
         await prisma.transactions.create({
             data: {
                 name,
-                date,
+                date: dateObject.toISOString(),
                 type,
                 accountId,
                 category,

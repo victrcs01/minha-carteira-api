@@ -51,7 +51,7 @@ export class TransactionService implements IRegisterTransaction {
             await wallet.createTransaction(name, date, type, account, category, value);
 
             //Retorna a mensagem de sucesso
-            return { status: 200, message: "Conta criada com sucesso!" };
+            return { status: 200, message: "Transação criada com sucesso!" };
 
         } catch (error: any) {
             return { status: error.status, message: error.message };
