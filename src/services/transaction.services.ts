@@ -54,6 +54,7 @@ export class TransactionService implements IRegisterTransaction {
             return { status: 200, message: "Transação criada com sucesso!" };
 
         } catch (error: any) {
+            console.log(error)
             return { status: error.status, message: error.message };
         }
     }
