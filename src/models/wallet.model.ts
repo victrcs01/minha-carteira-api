@@ -148,7 +148,12 @@ export class Wallet {
 
     // Método para pegar os dados das contas no banco de dados
     async getAccounts() : Promise<{id: number, institution: string }[]> {
+        
+        // Busca as contas no banco de dados
+        await this.loadAccounts();
+        
         return this.accounts.map(account => {
+            console.log(account.id)
             return { id: account.id, institution: account.institution}
         })
     };
