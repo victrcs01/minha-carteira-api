@@ -116,5 +116,19 @@ export class Account {
         return investmentBase;
     }
 
+    // Método para buscar o extrato mensal da conta
+    getMonthStatement(date : Date) : Array<Transaction> {
+
+        // Inicializa a variável que ira armazenar o extrato
+        const monthStatement = [];
+
+        // Adiciona na variável as movimentações de todos os tipos
+        monthStatement.push(...this.expenses.getTransactions(date));
+        monthStatement.push(...this.revenues.getTransactions(date));
+        monthStatement.push(...this.assetTransactions.getTransactions(date));
+
+        return monthStatement;
+
+    }
 
 }

@@ -84,6 +84,7 @@ export class Wallet {
         return walletExpensesChartData;
     }
 
+    // Método para pegar a tabela e o gráfico de investimentos
     async getInvestmentData(): Promise<object> {
 
         // Busca as contas no banco de dados
@@ -113,5 +114,31 @@ export class Wallet {
         const investMentChartData = investMentChart.data;
 
         return { investmentBase, investMentChartData };
+    }
+
+    // Método para pegar o extrato mensal da conta
+    async getMonthStatement(date: string | undefined) {
+
+        // Busca as contas no banco de dados
+        await this.loadAccounts();
+
+        // Cria um objeto com a data passada
+        const dateObjetc = date ? new Date(date) :  new Date()
+
+        const monthStatement = [];
+
+        // Loop nas contas, buscando os extratos
+        for (const account of this.accounts) {
+            await account.loadTransactions();
+            monthStatement.push(...account.getMonthStatement(dateObjetc))
+        }
+
+        // Ordena a base do mais antigo para o mais recente
+        monthStatement.sort((a, b) => a.dateObject.getTime() - b.dateObject.getTime());
+
+        // Edita a ordem e quais colunas terão na base
+        return monthStatement.map(entry => {
+            return { "Data": entry.date, "Movimentação": entry.name, "Valor": entry.value, "Tipo": entry.type, "Categoria": entry.category  };
+        })
     }
 }

@@ -65,4 +65,12 @@ export class Transactions {
     }, 0);
   }
 
+  // Método para retornar as movimentações de determinado mês
+  getTransactions(date: Date) : Array<Transaction> {
+    return this.data.filter(entry => {
+      const entryDate = entry.dateObject;
+      return entryDate.getUTCMonth() === date.getUTCMonth() && entryDate.getUTCFullYear() === date.getUTCFullYear();
+  });
+
+  }
 }

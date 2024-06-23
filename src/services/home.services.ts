@@ -1,7 +1,6 @@
 import { Return } from '../interfaces/types.interface';
 import { IGetBalance, IGetExpensesChart } from '../interfaces/home.interface';
 import { Wallet } from '../models/wallet.model';
-const { prisma } = require('../prisma/prismaClient');
 
 // Classe que representa os serviços da tela inicial
 export class HomeService implements IGetBalance, IGetExpensesChart {
