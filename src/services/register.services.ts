@@ -47,7 +47,7 @@ export class RegisterService implements ICreateUser, IAuthenticateUser {
 
         // Cria uma instância de User para poder comparar a senha
         const user = new User(userData.id, userData.username, userData.fullname, userData.password);
-        const isCorrectPassword = user.checkPassword(password);
+        const isCorrectPassword = await user.checkPassword(password);
 
         // Erro de senha inválida
         if (!isCorrectPassword ) {
