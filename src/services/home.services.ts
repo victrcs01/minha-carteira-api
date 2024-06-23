@@ -24,7 +24,7 @@ export class HomeService implements IGetBalance, IGetExpensesChart {
         }
     }
 
-    // Método que realiza o login no sistema
+    // Método que obtem os dados do gráfico de despesas por tipo
     async getExpensesChart(userToken: string): Promise<Return> {
 
         try {
@@ -35,7 +35,7 @@ export class HomeService implements IGetBalance, IGetExpensesChart {
             const expenseChart = await wallet.getExpensesChart();
 
             //Retorna a mensagem de sucesso
-            return { status: 200, message: "Dados obtidos com sucesso!", data: expenseChart };
+            return { status: 200, message: "Dados obtidos com sucesso!", data: expenseChart.data };
 
         } catch (error: any) {
             return { status: error.status, message: error.message };

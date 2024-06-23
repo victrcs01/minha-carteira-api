@@ -1,3 +1,4 @@
+import { assert } from 'console';
 import { ChartData } from '../utils/chartData.utils';
 import { Transaction } from './transaction.model';
 
@@ -45,13 +46,23 @@ export class Transactions {
         (date &&
           transaction.dateObject.getMonth() === date.getMonth() &&
           transaction.dateObject.getFullYear() === date.getFullYear());
-      
+
       if (shouldIncludeTransaction) {
         transactionsByType.addCategory(transaction.category, transaction.value);
       }
     });
 
     return transactionsByType;
+  }
+
+  // Método para o balanço de determinado ativo
+  getAssetBalance(assetName: string): number {
+    return this.data.reduce((total, transaction) => {
+      if (transaction.name === assetName) {
+        return total + transaction.value;
+      }
+      return total;
+    }, 0);
   }
 
 }

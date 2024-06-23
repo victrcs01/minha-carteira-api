@@ -37,13 +37,13 @@ export class Wallet {
     };
 
     // Método para pegar o resumo de saldo, receitas e despesas
-    async getBalance() {
+    async getBalance(): Promise<object> {
 
         // Busca as contas no banco de dados
         await this.loadAccounts();
 
         // Inicializa o acumulador do balaço das contas e a matriz que irá armazenar os balanços individuais
-        const walletBalance = { globalBalance: 0.0, monthExpenses: 0, monthRevenues: 0 };
+        const walletBalance = { globalBalance: 0, monthExpenses: 0, monthRevenues: 0 };
         const accountsBalance: { accountId: number, accountName: string, accountBalance: number }[] = [];
 
         // Loop nas contas, buscando as informações de balanço
@@ -64,7 +64,7 @@ export class Wallet {
     }
 
     // Método para pegar o gráfico de despesas
-    async getExpensesChart() {
+    async getExpensesChart(): Promise<ChartData> {
 
         // Busca as contas no banco de dados
         await this.loadAccounts();
@@ -81,6 +81,37 @@ export class Wallet {
             const accountExpensesChartData = account.expenses.groupByCategory(today);
             walletExpensesChartData.addChartData(accountExpensesChartData);
         }
-        return walletExpensesChartData.data;
+        return walletExpensesChartData;
+    }
+
+    async getInvestmentData(): Promise<object> {
+
+        // Busca as contas no banco de dados
+        await this.loadAccounts();
+
+        const investmentBase: { assetName: string, category: string, totalInvested: number, position: number, positionDate: string, return: number }[] = [];
+
+        // Loop nas contas, buscando as informações de investimentos
+        for (const account of this.accounts) {
+
+            // Carrega as informações de transações
+            await account.loadTransactions();
+
+            // Gera a base de investimentos
+            const accountInvestments = account.getInvestmentsBase();
+
+            // Transfere os dados para a base globla
+            investmentBase.push(...accountInvestments)
+
+        }
+
+        // Agora faz novamente um loop nessa base, gerando o gráifo de investimetnos
+        const investMentChart = new ChartData();
+        for (const entry of investmentBase) {
+            investMentChart.addCategory(entry.category, entry.position)
+        }
+        const investMentChartData = investMentChart.data;
+
+        return { investmentBase, investMentChartData };
     }
 }
