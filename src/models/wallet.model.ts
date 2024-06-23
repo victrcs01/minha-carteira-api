@@ -180,7 +180,7 @@ export class Wallet {
     // Método para deletar uma transação
     async deleteTransaction(transactionId: number) {
         await prisma.transactions.delete({
-            data: {
+            where: {
                 id: transactionId
             }
         })

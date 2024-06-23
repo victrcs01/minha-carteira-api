@@ -60,6 +60,7 @@ export class StatementController extends AbstractController {
             });
 
         } catch (error: AppError | any) {
+            console.log(error)
             return res.status(error.status).json({
                 message: error.message
             });

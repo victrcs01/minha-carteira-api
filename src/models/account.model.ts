@@ -54,7 +54,7 @@ export class Account {
         const totalExpenses = this.expenses.getTotalBalance();
         const totalRevenues = this.revenues.getTotalBalance();
         const totalAssetTransactions = this.assetTransactions.getTotalBalance();
-        const accountGlobalBalance = totalExpenses + totalRevenues + totalAssetTransactions;
+        const accountGlobalBalance = totalExpenses + totalRevenues - totalAssetTransactions;
 
         // Calculando o balanço mensal de receitas e despesas
         const today = new Date();

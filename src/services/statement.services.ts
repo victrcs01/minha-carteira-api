@@ -31,13 +31,13 @@ export class StatementService implements IGetStatement {
             const wallet = new Wallet(userToken);
 
             // Chamo o método que faz os cálculos
-            const balanceData = await wallet.deleteTransaction(transactionId);
+            await wallet.deleteTransaction(transactionId);
 
             //Retorna a mensagem de sucesso
             return { status: 200, message: "Dados deletados com sucesso!" };
 
         } catch (error: any) {
-            return { status: error.status, message: error.message };
+            return { status: 400, message: error.message };
         }
     }
 
