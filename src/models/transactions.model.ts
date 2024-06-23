@@ -1,4 +1,3 @@
-import { assert } from 'console';
 import { ChartData } from '../utils/chartData.utils';
 import { Transaction } from './transaction.model';
 

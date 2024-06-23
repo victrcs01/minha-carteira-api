@@ -19,7 +19,7 @@ export class Wallet {
         };
     };
 
-    // Método para pegar os dados das contas no banco de dados
+    // Método para pegar os dados das contas no banco de dados e criar
     private async loadAccounts() {
 
         // Busca os registros no banco
@@ -61,7 +61,7 @@ export class Wallet {
         }
 
         return { walletBalance, accountsBalance };
-    }
+    };
 
     // Método para pegar o gráfico de despesas
     async getExpensesChart(): Promise<ChartData> {
@@ -82,7 +82,7 @@ export class Wallet {
             walletExpensesChartData.addChartData(accountExpensesChartData);
         }
         return walletExpensesChartData;
-    }
+    };
 
     // Método para pegar a tabela e o gráfico de investimentos
     async getInvestmentData(): Promise<object> {
@@ -106,15 +106,19 @@ export class Wallet {
 
         }
 
-        // Agora faz novamente um loop nessa base, gerando o gráifo de investimetnos
-        const investMentChart = new ChartData();
+        // Agora faz novamente um loop nessa base, gerando o gráifo de investimetnos e a base com o nome dos investimentos
+        const investmentChart = new ChartData();
+        const investmentNameBase = new ChartData();
         for (const entry of investmentBase) {
-            investMentChart.addCategory(entry.category, entry.position)
+            investmentChart.addCategory(entry.category, entry.position)
+            investmentChart.addCategory(entry.assetName, entry.totalInvested)
         }
-        const investMentChartData = investMentChart.data;
+        
+        const investmentChartData = investmentChart.data;
+        const investmentName = investmentNameBase.data;
 
-        return { investmentBase, investMentChartData };
-    }
+        return { investmentBase, investmentChartData , investmentName};
+    };
 
     // Método para pegar o extrato mensal da conta
     async getMonthStatement(date: string | undefined) {
@@ -138,7 +142,47 @@ export class Wallet {
 
         // Edita a ordem e quais colunas terão na base
         return monthStatement.map(entry => {
-            return { "Data": entry.date, "Movimentação": entry.name, "Valor": entry.value, "Tipo": entry.type, "Categoria": entry.category  };
+            return { "id": entry.id, "Data": entry.date, "Movimentação": entry.name, "Valor": entry.value, "Tipo": entry.type, "Categoria": entry.category  };
+        })
+    };
+
+    // Método para pegar os dados das contas no banco de dados
+    async getAccounts() : Promise<{id: number, institution: string }[]> {
+        return this.accounts.map(account => {
+            return { id: account.id, institution: account.institution}
+        })
+    };
+
+    // Método para criar uma nova conta 
+    async createAccount (institution: string) {
+        await prisma.accounts.create({
+            data: {
+                userId: this.userId,
+                institution: institution,
+            }
+        })
+    }
+
+    // Método para criar uma nova transação
+    async createTransaction( name: string, date: string, type: string, accountId: number, category: string, value:number) {
+        await prisma.transactions.create({
+            data: {
+                name,
+                date,
+                type,
+                accountId,
+                category,
+                value
+            }
+        })
+    }
+
+    // Método para deletar uma transação
+    async deleteTransaction(transactionId: number) {
+        await prisma.transactions.delete({
+            data: {
+                id: transactionId
+            }
         })
     }
 }

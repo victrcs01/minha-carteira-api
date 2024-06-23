@@ -9,6 +9,7 @@ export class StatementRoutes extends AbstractRoute {
     constructor() {
         super();
         this.router.get("/statements/:date?", (req: Request, res: Response) => StatementRoutes.controller.getStatement(req, res));
+        this.router.delete("/statements/:id", (req: Request, res: Response) => StatementRoutes.controller.deleteTransaction(req, res));
     }
 }
 

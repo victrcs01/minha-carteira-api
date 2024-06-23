@@ -34,7 +34,7 @@ export class Account {
 
         // Cria os objetos de transação de já deixa classificado.
         transactionsData.forEach(transaction => {
-            const newTransaction = new Transaction(transaction.name, transaction.date, transaction.type, transaction.accountId, transaction.category, transaction.value);
+            const newTransaction = new Transaction( transaction. id, transaction.name, transaction.date, transaction.type, transaction.accountId, transaction.category, transaction.value);
             if (newTransaction.type === "Receita") {
                 this.revenues.loadTransaction(newTransaction);
             } else if (newTransaction.type === "Despesa") {
