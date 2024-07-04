@@ -1,5 +1,4 @@
-import { Return } from '../interfaces/types.interface';
-import { AppError } from '../errors/appErros';
+import { ChartData } from '../utils/chartData.utils';
 import { Transaction } from './transaction.model';
 import { Transactions } from './transactions.model';
 const { prisma } = require('../prisma/prismaClient');
@@ -112,6 +111,14 @@ export class Account {
             asset.totalInvested = totalInvested;
             asset.return = asserReturn;
         })
+
+        return investmentBase;
+    }
+
+    // Método para pegar a lista de investimentos do extrato
+    getInvestmentsList():ChartData {
+
+        const investmentBase: ChartData = this.assetTransactions.groupByCategory();
 
         return investmentBase;
     }

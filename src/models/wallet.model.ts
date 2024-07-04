@@ -91,6 +91,7 @@ export class Wallet {
         await this.loadAccounts();
 
         const investmentBase: { assetName: string, category: string, totalInvested: number, position: number, positionDate: string, return: number }[] = [];
+        const investmentList: { x: string; y: number }[] = [];
 
         // Loop nas contas, buscando as informações de investimentos
         for (const account of this.accounts) {
@@ -100,10 +101,11 @@ export class Wallet {
 
             // Gera a base de investimentos
             const accountInvestments = account.getInvestmentsBase();
+            const accountInvestmentsList = account.getInvestmentsList();
 
             // Transfere os dados para a base globla
-            investmentBase.push(...accountInvestments)
-
+            investmentBase.push(...accountInvestments);
+            investmentList.push(...accountInvestmentsList.data);
         }
 
         // Agora faz novamente um loop nessa base, gerando o gráifo de investimetnos 
@@ -115,7 +117,7 @@ export class Wallet {
         
         const investmentChartData = investmentChart.data;
 
-        return { investmentBase, investmentChartData };
+        return { investmentBase, investmentChartData, investmentList };
     };
 
     // Método para pegar o extrato mensal da conta
