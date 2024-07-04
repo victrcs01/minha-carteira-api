@@ -170,7 +170,16 @@ export class Wallet {
 
     // Método para criar uma nova transação
     async createTransaction( name: string, date: string, type: string, accountId: number, category: string, value:number) {
+        
         const dateObject = new Date(date)
+
+        // Faz o tratamento dos sinais
+        if (type === "Receita" || type === "Aplicação" || type === "Posição") {
+            value < 0 ? value*= -1 : value;  
+        } else if(type === "Despesa" || type === "Resgate" ) {
+            value > 0 ? value*= -1 : value;  
+        }
+
         await prisma.transactions.create({
             data: {
                 name,
