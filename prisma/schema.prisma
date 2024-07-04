@@ -1,39 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model users {
-  id       Int        @id @default(autoincrement())
-  username String     @unique(map: "users_unique") @db.VarChar(500)
-  fullname String     @db.VarChar(500)
-  password String     @db.VarChar(500)
-  accounts accounts[]
+  id        Int      @id @default(autoincrement())
+  username  String   @unique(map: "users_unique")
+  fullname  String
+  password  String
+  accounts  accounts[]
 }
 
 model accounts {
-  id           Int            @id @default(autoincrement())
-  userId       Int
-  institution  String         @db.VarChar(300)
-  users        users          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "accounts_users_FK")
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  institution String
+  users       users    @relation(fields: [userId], references: [id])
   transactions transactions[]
 
   @@index([userId], map: "accounts_users_FK")
 }
 
 model transactions {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(500)
-  date      DateTime @db.Date
-  type      String   @db.VarChar(100)
-  accountId Int
-  category  String   @db.VarChar(300)
-  value     Float    @db.Float
-  accounts  accounts @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transactions_accounts_FK")
+  id          Int      @id @default(autoincrement())
+  name        String
+  date        DateTime  // SQLite doesn't have a native DateTime type, consider using TEXT
+  type        String
+  accountId   Int
+  category    String
+  value       Float
+  accounts    accounts @relation(fields: [accountId], references: [id])
 
   @@index([accountId], map: "transactions_accounts_FK")
 }

@@ -106,18 +106,16 @@ export class Wallet {
 
         }
 
-        // Agora faz novamente um loop nessa base, gerando o gráifo de investimetnos e a base com o nome dos investimentos
+        // Agora faz novamente um loop nessa base, gerando o gráifo de investimetnos 
         const investmentChart = new ChartData();
-        const investmentNameBase = new ChartData();
         for (const entry of investmentBase) {
+            console.log(entry)
             investmentChart.addCategory(entry.category, entry.position)
-            investmentChart.addCategory(entry.assetName, entry.totalInvested)
         }
         
         const investmentChartData = investmentChart.data;
-        const investmentName = investmentNameBase.data;
 
-        return { investmentBase, investmentChartData , investmentName};
+        return { investmentBase, investmentChartData };
     };
 
     // Método para pegar o extrato mensal da conta
